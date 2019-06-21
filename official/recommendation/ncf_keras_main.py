@@ -94,7 +94,8 @@ def _get_train_and_eval_data(producer, params):
       return (features,)
 
   train_input_fn = producer.make_input_fn(is_training=True)
-  train_input_dataset = train_input_fn(params).map(
+  from tensorflow.python.data.ops import dataset_ops
+  train_input_dataset = dataset_ops.DatasetV1Adapter(train_input_fn(params)).map(
       preprocess_train_input)
 
   def preprocess_eval_input(features):
@@ -119,7 +120,8 @@ def _get_train_and_eval_data(producer, params):
       return (features,)
 
   eval_input_fn = producer.make_input_fn(is_training=False)
-  eval_input_dataset = eval_input_fn(params).map(
+  from tensorflow.python.data.ops import dataset_ops
+  eval_input_dataset = dataset_ops.DatasetV1Adapter(eval_input_fn(params)).map(
       lambda features: preprocess_eval_input(features))
 
   return train_input_dataset, eval_input_dataset
@@ -269,6 +271,10 @@ def run_ncf(_):
   strategy = distribution_utils.get_distribution_strategy(
       distribution_strategy=FLAGS.distribution_strategy,
       num_gpus=FLAGS.num_gpus)
+
+  if strategy is None:
+    strategy = tf.distribute.get_strategy()
+
   params["distribute_strategy"] = strategy
 
   if (params["keras_use_ctl"] and (
@@ -399,12 +405,13 @@ def run_ncf(_):
     with distribution_utils.get_strategy_scope(strategy):
 
       keras_model.compile(optimizer=optimizer)
+      keras_model._distribution_strategy = strategy
 
       history = keras_model.fit(train_input_dataset,
                                 epochs=FLAGS.train_epochs,
                                 callbacks=callbacks,
-                                validation_data=eval_input_dataset,
-                                validation_steps=num_eval_steps,
+                                # validation_data=eval_input_dataset,
+                                # validation_steps=num_eval_steps,
                                 verbose=2)
 
       logging.info("Training done. Start evaluating")
