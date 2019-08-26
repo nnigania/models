@@ -296,6 +296,9 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.train_epochs = 7
     FLAGS.dtype = 'fp16'
     FLAGS.loss_scale = 8192
+    FLAGS.train_dataset_path = os.path.join(root_data_dir, NCF_DATA_DIR_NAME, "ncf_data_1gpu_99k_batch_v4","training_cycle_*/*")
+    FLAGS.eval_dataset_path = os.path.join(root_data_dir, NCF_DATA_DIR_NAME, "ncf_data_1gpu_99k_batch_v4","eval_data/*")
+    FLAGS.input_meta_data_path = os.path.join(root_data_dir, NCF_DATA_DIR_NAME, "ncf_data_1gpu_99k_batch_v4","meta_data.json")
     self._run_and_report_benchmark_mlperf_like()
 
   def benchmark_8_gpu_mlperf_like(self):
