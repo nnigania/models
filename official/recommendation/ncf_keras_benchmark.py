@@ -351,14 +351,14 @@ class NCFKerasTfDataAccuracy(NCFKerasBenchmarkBase):
 
     default_flags = {}
     default_flags['dataset'] = 'ml-20m'
-    default_flags['num_gpus'] = 1
-    default_flags['train_epochs'] = 10
+    default_flags['num_gpus'] = 8
+    default_flags['train_epochs'] = 17
     default_flags['clean'] = True
-    default_flags['batch_size'] = 99000
-    default_flags['learning_rate'] = 0.00382059
-    default_flags['beta1'] = 0.783529
-    default_flags['beta2'] = 0.909003
-    default_flags['epsilon'] = 1.45439e-07
+    default_flags['batch_size'] = 1048576
+    default_flags['learning_rate'] = 0.0045
+    default_flags['beta1'] = 0.25
+    default_flags['beta2'] = 0.5
+    default_flags['epsilon'] = 1e-8
     default_flags['layers'] = [256, 256, 128, 64]
     default_flags['num_factors'] = 64
     default_flags['hr_threshold'] = 0.635
@@ -383,14 +383,19 @@ class NCFKerasTfDataAccuracy(NCFKerasBenchmarkBase):
     """8 GPU using CTL."""
     self._setup()
     FLAGS.keras_use_ctl = True
-    FLAGS.num_gpus = 8
-    FLAGS.train_epochs = 17
-    FLAGS.batch_size = 1048576
     FLAGS.eval_batch_size = 1048000
-    FLAGS.learning_rate = 0.0045
-    FLAGS.beta1 = 0.25
-    FLAGS.beta2 = 0.5
-    FLAGS.epsilon = 1e-8
+    FLAGS.train_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
+    FLAGS.eval_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","eval_data/*")
+    FLAGS.input_meta_data_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","meta_data.json")
+    self._run_and_report_benchmark_mlperf_like()
+
+  def benchmark_8_gpu_tf_data_ctl_fp16_mlperf_like(self):
+    """8 GPU using CTL."""
+    self._setup()
+    FLAGS.keras_use_ctl = True
+    FLAGS.eval_batch_size = 1048000
+    FLAGS.dtype = 'fp16'
+    FLAGS.loss_scale = 8192
     FLAGS.train_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
     FLAGS.eval_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","eval_data/*")
     FLAGS.input_meta_data_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","meta_data.json")
