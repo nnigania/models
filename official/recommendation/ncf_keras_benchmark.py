@@ -351,9 +351,9 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.beta1 = 0.25
     FLAGS.beta2 = 0.5
     FLAGS.epsilon = 1e-8
-    FLAGS.train_dataset_path = os.path.join(root_data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
-    FLAGS.eval_dataset_path = os.path.join(root_data_dir, "ncf_8gpu_1M_batch","eval_data/*")
-    FLAGS.input_meta_data_path = os.path.join(root_data_dir, "ncf_8gpu_1M_batch","meta_data.json")
+    FLAGS.train_dataset_path = os.path.join(root_data_dir, "ncf_input_tf_data/ncf_8gpu_1M_batch","training_cycle_*/*")
+    FLAGS.eval_dataset_path = os.path.join(root_data_dir, "ncf_input_tf_data/ncf_8gpu_1M_batch","eval_data/*")
+    FLAGS.input_meta_data_path = os.path.join(root_data_dir, "ncf_input_tf_data/ncf_8gpu_1M_batch","meta_data.json")
     self._run_and_report_benchmark_mlperf_like()
 
 class NCFKerasSynth(NCFKerasBenchmarkBase):
