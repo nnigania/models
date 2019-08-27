@@ -366,7 +366,7 @@ class NCFKerasTfDataAccuracy(NCFKerasBenchmarkBase):
     default_flags['use_synthetic_data'] = False
     default_flags['data_dir'] = os.path.join(root_data_dir, NCF_TF_DATA_DIR_NAME)
 
-    super(NCFKerasAccuracy, self).__init__(
+    super(NCFKerasTfDataAccuracy, self).__init__(
         output_dir=output_dir,
         default_flags=default_flags,
         **kwargs)
