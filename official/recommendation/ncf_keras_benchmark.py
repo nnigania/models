@@ -296,9 +296,6 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.train_epochs = 7
     FLAGS.dtype = 'fp16'
     FLAGS.loss_scale = 8192
-    FLAGS.train_dataset_path = os.path.join(root_data_dir, NCF_DATA_DIR_NAME, "ncf_data_1gpu_99k_batch_v4","training_cycle_*/*")
-    FLAGS.eval_dataset_path = os.path.join(root_data_dir, NCF_DATA_DIR_NAME, "ncf_data_1gpu_99k_batch_v4","eval_data/*")
-    FLAGS.input_meta_data_path = os.path.join(root_data_dir, NCF_DATA_DIR_NAME, "ncf_data_1gpu_99k_batch_v4","meta_data.json")
     self._run_and_report_benchmark_mlperf_like()
 
   def benchmark_8_gpu_mlperf_like(self):
@@ -342,6 +339,22 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.epsilon = 1e-8
     self._run_and_report_benchmark_mlperf_like()
 
+  def benchmark_8_gpu_tf_data_ctl_mlperf_like(self):
+    """8 GPU using CTL."""
+    self._setup()
+    FLAGS.keras_use_ctl = True
+    FLAGS.num_gpus = 8
+    FLAGS.train_epochs = 17
+    FLAGS.batch_size = 1048576
+    FLAGS.eval_batch_size = 1048000
+    FLAGS.learning_rate = 0.0045
+    FLAGS.beta1 = 0.25
+    FLAGS.beta2 = 0.5
+    FLAGS.epsilon = 1e-8
+    FLAGS.train_dataset_path = os.path.join(root_data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
+    FLAGS.eval_dataset_path = os.path.join(root_data_dir, "ncf_8gpu_1M_batch","eval_data/*")
+    FLAGS.input_meta_data_path = os.path.join(root_data_dir, "ncf_8gpu_1M_batch","meta_data.json")
+    self._run_and_report_benchmark_mlperf_like()
 
 class NCFKerasSynth(NCFKerasBenchmarkBase):
   """Benchmark NCF model using synthetic data."""
