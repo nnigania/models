@@ -31,7 +31,7 @@ from official.utils.flags import core
 
 FLAGS = flags.FLAGS
 NCF_DATA_DIR_NAME = 'movielens_data'
-NCF_TF_DATA_1M_BATCH_DIR_NAME = 'gs://tf-perfzero-data/ncf_input_tf_data/ncf_8gpu_1M_batch'
+NCF_TF_DATA_1M_BATCH_DIR_NAME = 'gs://tf-perfzero-data/movielens_data/ncf_8gpu_1M_batch'
 
 
 class NCFKerasBenchmarkBase(tf.test.Benchmark):
