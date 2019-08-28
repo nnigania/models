@@ -31,6 +31,7 @@ from official.utils.flags import core
 
 FLAGS = flags.FLAGS
 NCF_DATA_DIR_NAME = 'movielens_data'
+NCF_TF_DATA_1M_BATCH_DIR_NAME = 'gs://tf-perfzero-data/ncf_input_tf_data/ncf_8gpu_1M_batch'
 
 
 class NCFKerasBenchmarkBase(tf.test.Benchmark):
@@ -351,9 +352,9 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.beta1 = 0.25
     FLAGS.beta2 = 0.5
     FLAGS.epsilon = 1e-8
-    FLAGS.train_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
-    FLAGS.eval_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","eval_data/*")
-    FLAGS.input_meta_data_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","meta_data.json")
+    FLAGS.train_dataset_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "training_cycle_*/*")
+    FLAGS.eval_dataset_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "eval_data/*")
+    FLAGS.input_meta_data_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "meta_data.json")
     self._run_and_report_benchmark_mlperf_like()
 
   def benchmark_8_gpu_tf_data_ctl_fp16_mlperf_like(self):
@@ -370,9 +371,9 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.epsilon = 1e-8
     FLAGS.dtype = 'fp16'
     FLAGS.loss_scale = 8192
-    FLAGS.train_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
-    FLAGS.eval_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","eval_data/*")
-    FLAGS.input_meta_data_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","meta_data.json")
+    FLAGS.train_dataset_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "training_cycle_*/*")
+    FLAGS.eval_dataset_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "eval_data/*")
+    FLAGS.input_meta_data_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "meta_data.json")
     self._run_and_report_benchmark_mlperf_like()
 
 class NCFKerasSynth(NCFKerasBenchmarkBase):
