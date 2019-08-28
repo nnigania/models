@@ -31,7 +31,6 @@ from official.utils.flags import core
 
 FLAGS = flags.FLAGS
 NCF_DATA_DIR_NAME = 'movielens_data'
-NCF_TF_DATA_DIR_NAME = 'ncf_input_tf_data'
 
 
 class NCFKerasBenchmarkBase(tf.test.Benchmark):
@@ -340,50 +339,18 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.epsilon = 1e-8
     self._run_and_report_benchmark_mlperf_like()
 
-class NCFKerasTfDataAccuracy(NCFKerasBenchmarkBase):
-  """Benchmark NCF model using real data."""
-
-  def __init__(self,
-               output_dir=None,
-               root_data_dir=None,
-               default_flags=None,
-               **kwargs):
-
-    default_flags = {}
-    default_flags['dataset'] = 'ml-20m'
-    default_flags['num_gpus'] = 8
-    default_flags['train_epochs'] = 17
-    default_flags['clean'] = True
-    default_flags['batch_size'] = 1048576
-    default_flags['learning_rate'] = 0.0045
-    default_flags['beta1'] = 0.25
-    default_flags['beta2'] = 0.5
-    default_flags['epsilon'] = 1e-8
-    default_flags['layers'] = [256, 256, 128, 64]
-    default_flags['num_factors'] = 64
-    default_flags['hr_threshold'] = 0.635
-    default_flags['ml_perf'] = True
-    default_flags['use_synthetic_data'] = False
-    default_flags['data_dir'] = os.path.join(root_data_dir, NCF_TF_DATA_DIR_NAME)
-
-    super(NCFKerasTfDataAccuracy, self).__init__(
-        output_dir=output_dir,
-        default_flags=default_flags,
-        **kwargs)
-
-  def _run_and_report_benchmark_mlperf_like(self):
-    """Run test and report results.
-
-    Note: MLPerf like tests are not tuned to hit a specific hr@10 value, but
-    we want it recorded.
-    """
-    self._run_and_report_benchmark(hr_at_10_min=0.61)
-
   def benchmark_8_gpu_tf_data_ctl_mlperf_like(self):
     """8 GPU using CTL."""
     self._setup()
     FLAGS.keras_use_ctl = True
+    FLAGS.num_gpus = 8
+    FLAGS.train_epochs = 17
+    FLAGS.batch_size = 1048576
     FLAGS.eval_batch_size = 1048000
+    FLAGS.learning_rate = 0.0045
+    FLAGS.beta1 = 0.25
+    FLAGS.beta2 = 0.5
+    FLAGS.epsilon = 1e-8
     FLAGS.train_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
     FLAGS.eval_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","eval_data/*")
     FLAGS.input_meta_data_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","meta_data.json")
@@ -393,7 +360,14 @@ class NCFKerasTfDataAccuracy(NCFKerasBenchmarkBase):
     """8 GPU using CTL."""
     self._setup()
     FLAGS.keras_use_ctl = True
+    FLAGS.num_gpus = 8
+    FLAGS.train_epochs = 17
+    FLAGS.batch_size = 1048576
     FLAGS.eval_batch_size = 1048000
+    FLAGS.learning_rate = 0.0045
+    FLAGS.beta1 = 0.25
+    FLAGS.beta2 = 0.5
+    FLAGS.epsilon = 1e-8
     FLAGS.dtype = 'fp16'
     FLAGS.loss_scale = 8192
     FLAGS.train_dataset_path = os.path.join(FLAGS.data_dir, "ncf_8gpu_1M_batch","training_cycle_*/*")
