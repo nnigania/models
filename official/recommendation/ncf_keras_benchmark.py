@@ -356,6 +356,7 @@ class NCFKerasAccuracy(NCFKerasBenchmarkBase):
     FLAGS.train_dataset_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "training_cycle_*/*")
     FLAGS.eval_dataset_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "eval_data/*")
     FLAGS.input_meta_data_path = os.path.join(NCF_TF_DATA_1M_BATCH_DIR_NAME, "meta_data.json")
+    FLAGS.seed = 99
     self._run_and_report_benchmark_mlperf_like()
 
   def benchmark_8_gpu_tf_data_ctl_fp16_mlperf_like(self):
