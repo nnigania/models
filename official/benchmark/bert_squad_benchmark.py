@@ -231,6 +231,7 @@ class BertSquadBenchmarkReal(BertSquadBenchmarkBase):
     self.num_gpus = 8
     FLAGS.model_dir = self._get_model_dir('benchmark_8_gpu_squad')
     FLAGS.train_batch_size = 32
+    FLAGS.steps_per_loop = 200
 
     self._run_and_report_benchmark()
 
@@ -400,6 +401,7 @@ class BertSquadAccuracy(BertSquadBenchmarkBase):
     self.num_gpus = 8
     FLAGS.model_dir = self._get_model_dir('benchmark_8_gpu_squad')
     FLAGS.train_batch_size = 24
+    FLAGS.steps_per_loop = 200
 
     self._run_and_report_benchmark()
 
