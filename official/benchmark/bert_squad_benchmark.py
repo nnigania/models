@@ -293,6 +293,7 @@ class BertSquadBenchmarkReal(BertSquadBenchmarkBase):
     FLAGS.train_batch_size = 32
     FLAGS.dtype = 'fp16'
     FLAGS.loss_scale = 'dynamic'
+    FLAGS.steps_per_loop = 200
 
     self._run_and_report_benchmark()
 
@@ -414,6 +415,7 @@ class BertSquadAccuracy(BertSquadBenchmarkBase):
     FLAGS.train_batch_size = 32
     FLAGS.dtype = 'fp16'
     FLAGS.loss_scale = 'dynamic'
+    FLAGS.steps_per_loop = 200
 
     self._run_and_report_benchmark()
 
