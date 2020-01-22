@@ -363,14 +363,14 @@ def run_customized_training_loop(
       # Runs several steps in the host while loop.
       steps = steps_to_run(current_step, steps_per_epoch, steps_per_loop)
 
-      if steps == 1:
-        # TODO(zongweiz): merge with train_steps once tf.while_loop
-        # GPU performance bugs are fixed.
-        train_single_step(train_iterator)
-      else:
-        # Converts steps to a Tensor to avoid tf.function retracing.
-        train_steps(train_iterator,
-                    tf.convert_to_tensor(steps, dtype=tf.int32))
+      #if steps == 1:
+      #  # TODO(zongweiz): merge with train_steps once tf.while_loop
+      #  # GPU performance bugs are fixed.
+      #  train_single_step(train_iterator)
+      #else:
+      #  # Converts steps to a Tensor to avoid tf.function retracing.
+      train_steps(train_iterator,
+                  tf.convert_to_tensor(steps, dtype=tf.int32))
       _run_callbacks_on_batch_end(current_step)
       current_step += steps
 
