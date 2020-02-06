@@ -188,6 +188,7 @@ class Transformer(tf.keras.layers.Layer):
     base_config = super(Transformer, self).get_config()
     return dict(list(base_config.items()) + list(config.items()))
 
+  @tf.function(experimental_compile=True)
   def call(self, inputs):
     if isinstance(inputs, (list, tuple)) and len(inputs) == 2:
       input_tensor, attention_mask = inputs
